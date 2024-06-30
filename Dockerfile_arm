@@ -34,13 +34,16 @@ RUN \
     echo "**** install code-server ****" && \
     mkdir -p /app/code-server
 
-#RUN mkdir -p /opt/miniconda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-RUN bash Miniconda3-latest-Linux-x86_64.sh -p /opt/miniconda -b
-RUN rm Miniconda3-latest-Linux-x86_64.sh
-RUN cp /usr/local/bin/gunicorn /opt/miniconda/bin/
+RUN mkdir -p /opt/miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /opt/miniconda/miniconda.sh
+RUN bash /opt/miniconda/miniconda.sh -b -u -p /opt/miniconda
+RUN rm -rf /opt/miniconda/miniconda.sh
+
+#RUN cp /usr/local/bin/gunicorn /opt/miniconda/bin/
 
 ENV PATH=/opt/miniconda/bin:${PATH}
+
+RUN /opt/miniconda/bin/conda init bash
 # 创建base环境
 RUN conda create --name base python=3.11 
 # 激活slab环境

@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/docker-stacks-foundation
+FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
 
 # set version label
 ARG BUILD_DATE
@@ -32,6 +32,20 @@ RUN \
     sudo && apt-get clean \
     echo "**** install code-server ****" && \
     mkdir -p /app/code-server
+
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh 
+RUN bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -p /opt/miniconda -b
+RUN rm Miniconda3-py38_23.1.0-1-Linux-x86_64.sh
+RUN cp /usr/local/bin/gunicorn /opt/miniconda/bin/
+
+ENV PATH=/opt/miniconda/bin:${PATH}
+# 创建base环境
+RUN conda create --name base python=3.11 
+# 激活slab环境
+RUN conda activate base
+# 安装python库
+RUN pip install python-dotenv requests pandas
+
 
 # 安装Code-Server
 RUN curl -o /tmp/code-server.tar.gz -L "https://github.com/coder/code-server/releases/download/v4.90.3/code-server-4.90.3-linux-arm64.tar.gz"

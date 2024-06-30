@@ -29,26 +29,18 @@ RUN \
     zip \
     unzip \
     curl \
-    sudo && \
-  echo "**** install code-server ****" && \
-  if [ -z ${CODE_RELEASE+x} ]; then \
-    CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest \
-      | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||'); \
-  fi && \
-  mkdir -p /app/code-server && \
-  curl -o \
-    /tmp/code-server.tar.gz -L \
-    "https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-arm64.tar.gz" && \
-  tar xf /tmp/code-server.tar.gz -C \
-    /app/code-server --strip-components=1 && \
-  echo "**** clean up ****" && \
-  apt-get clean && \
-  rm -rf \
-    /config/* \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/*
+    sudo && apt-get clean \
+    echo "**** install code-server ****" && \
+    mkdir -p /app/code-server
 
+# 安装Code-Server
+RUN curl -o /tmp/code-server.tar.gz -L "https://github.com/coder/code-server/releases/download/v4.90.3/code-server-4.90.3-linux-arm64.tar.gz"
+RUN tar xf /tmp/code-server.tar.gz -C /app/code-server --strip-components=1
+
+RUN rm -rf /config/* /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
+ENV PATH=/app/code-server/bin:$PATH
+  
 # add local files
 COPY /root /
 

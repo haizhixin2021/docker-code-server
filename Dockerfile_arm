@@ -34,7 +34,7 @@ RUN \
     echo "**** install code-server ****" && \
     mkdir -p /app/code-server
 
-RUN mkdir -p /opt/miniconda
+#RUN mkdir -p /opt/miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 RUN bash Miniconda3-latest-Linux-x86_64.sh -p /opt/miniconda -b
 RUN rm Miniconda3-latest-Linux-x86_64.sh

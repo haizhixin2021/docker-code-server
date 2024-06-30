@@ -28,6 +28,7 @@ RUN \
     python3-pip \
     zip \
     unzip \
+    curl \
     sudo && \
   echo "**** install code-server ****" && \
   if [ -z ${CODE_RELEASE+x} ]; then \

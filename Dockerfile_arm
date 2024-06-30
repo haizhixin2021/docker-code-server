@@ -11,6 +11,8 @@ LABEL maintainer="aptalca"
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 
+USER root
+
 RUN \
   echo "**** install runtime dependencies ****" && \
   apt-get update && \

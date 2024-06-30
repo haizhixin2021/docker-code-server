@@ -29,6 +29,7 @@ RUN \
     zip \
     unzip \
     curl \
+    wget \
     sudo && apt-get clean \
     echo "**** install code-server ****" && \
     mkdir -p /app/code-server

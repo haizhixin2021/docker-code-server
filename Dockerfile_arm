@@ -1,5 +1,5 @@
 #FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
-FROM paketobuildpacks/miniconda
+FROM quay.io/continuumio/miniconda3
 
 # set version label
 ARG BUILD_DATE
